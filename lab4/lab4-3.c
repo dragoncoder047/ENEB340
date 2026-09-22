@@ -24,23 +24,46 @@ long get_reading_for(int x, sim_mode mode) {
 
 double to_c(long reading) { return (double)reading / 1000.; }
 
+sim_mode get_sim_mode(char* arg) {
+    if (streqi(arg, "normal")) return NORMAL;
+    if (streqi(arg, "warning")) return WARN;
+    if (streqi(arg, "failure")) return FAIL;
+    errno = EINVAL;
+    return FAIL;
+}
+
+int get_count(char* arg) {
+    char* end = NULL;
+    int count = (int)strtol(arg, &end, 0);
+    if (end - arg != (signed)strlen(arg)) {
+        errno = EINVAL;
+    }
+    return count;
+}
+
+void usage(char* p) {
+    fprintf(stderr, "usage: %s MODE [COUNT]\n", p);
+    fprintf(stderr, "  where MODE = 'normal', 'warning', or 'failure'\n");
+}
+
 int main(int argc, char** argv) {
     if (argc != 3 && argc != 2) {
-        fprintf(stderr, "usage: %s MODE [COUNT]\n", argv[0]);
+        usage(argv[0]);
         return 1;
     }
-    sim_mode mode;
-    if (streqi(argv[1], "normal")) mode = NORMAL;
-    else if (streqi(argv[1], "warning")) mode = WARN;
-    else if (streqi(argv[1], "failure")) mode = FAIL;
-    else { fprintf(stderr, "%s: %s is not a valid MODE (expected 'normal', 'warning', 'failure')\n", argv[0], argv[1]); return 2; }
+    sim_mode mode = get_sim_mode(argv[1]);
+    if (errno) {
+        perror("mode");
+        usage(argv[0]);
+        return 2;
+    }
 
     int count = DEFAULT_SAMPLE_COUNT;
     if (argc == 3) {
-        char* end = NULL;
-        count = (int)strtol(argv[2], &end, 0);
-        if (end - argv[2] != (signed)strlen(argv[2])) {
-            fprintf(stderr, "%s: COUNT: %s is not a number\n", argv[0], argv[2]);
+        count = get_count(argv[2]);
+        if (errno) {
+            perror("count");
+            usage(argv[0]);
             return 2;
         }
     }
