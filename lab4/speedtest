@@ -1,0 +1,8 @@
+#! /bin/zsh
+set -exuo pipefail
+PROG=lab4-1.c
+N=5000000000
+gcc $PROG -DKW=
+time ./a.out $N
+gcc $PROG -DKW=register
+time ./a.out $N
