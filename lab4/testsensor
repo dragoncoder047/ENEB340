@@ -1,0 +1,8 @@
+#! /bin/zsh
+gcc lab4-3.c
+{
+    set -x
+    ./a.out normal 10
+    ./a.out warning 8
+    ./a.out failure 10
+} > test-output.txt 2>&1

@@ -1,0 +1,37 @@
++./testsensor:5> ./a.out normal 10
+sample=000 temp=24.000 C status=OK
+sample=001 temp=24.750 C status=OK
+sample=002 temp=23.500 C status=OK
+sample=003 temp=25.250 C status=OK
+sample=004 temp=23.000 C status=OK
+sample=005 temp=24.500 C status=OK
+sample=006 temp=23.750 C status=OK
+sample=007 temp=25.000 C status=OK
+sample=008 temp=24.000 C status=OK
+sample=009 temp=24.750 C status=OK
+summary samples=10 valid=10 ok=10 warning=0 failure=0
+temperature min=23.000 C max=25.250 C average=24.250000 C
++./testsensor:6> ./a.out warning 8
+sample=000 temp=31.500 C status=WARN
+sample=001 temp=24.750 C status=OK
+sample=002 temp=23.500 C status=OK
+sample=003 temp=25.250 C status=OK
+sample=004 temp=31.500 C status=WARN
+sample=005 temp=24.500 C status=OK
+sample=006 temp=23.750 C status=OK
+sample=007 temp=25.000 C status=OK
+summary samples=8 valid=8 ok=6 warning=2 failure=0
+temperature min=23.500 C max=31.500 C average=26.218750 C
++./testsensor:7> ./a.out failure 10
+sample=000 temp=???????? status=FAIL
+sample=001 temp=24.750 C status=OK
+sample=002 temp=23.500 C status=OK
+sample=003 temp=25.250 C status=OK
+sample=004 temp=23.000 C status=OK
+sample=005 temp=???????? status=FAIL
+sample=006 temp=23.750 C status=OK
+sample=007 temp=25.000 C status=OK
+sample=008 temp=24.000 C status=OK
+sample=009 temp=24.750 C status=OK
+summary samples=10 valid=8 ok=8 warning=0 failure=2
+temperature min=23.000 C max=25.250 C average=24.250000 C
